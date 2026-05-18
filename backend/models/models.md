@@ -194,3 +194,69 @@ Imports needed:
 - Base from database.py
 
 Guide me to write this file.
+
+
+BOOKREEL — MODEL HIERARCHY
+═══════════════════════════════════════════════════════
+
+User
+├── id, username, email, password_hash, created_at
+│
+├── boards ──────────────────────────────→ Board
+│                                          ├── id, user_id, name, created_at
+│                                          └── board_reels ──→ BoardReel
+│                                                              ├── id, board_id, reel_id, created_at
+│                                                              └── reel ────────────────→ (see Reel)
+│
+├── likes ───────────────────────────────→ Like
+│                                          ├── id, user_id, reel_id, created_at
+│                                          └── reel ────────────────→ (see Reel)
+│
+└── genre_follows ───────────────────────→ GenreFollow (not written yet)
+
+
+Book
+├── id, title, author, genre, cover_image_url, source_url, created_at
+│
+└── reels ───────────────────────────────→ Reel
+                                           ├── id, book_id, type, content, order_index, created_at
+                                           │
+                                           ├── voice_reel ──────────→ VoiceReel
+                                           │                          └── id, reel_id, audio_url, created_at
+                                           │
+                                           ├── likes ───────────────→ Like (same Like as above)
+                                           │
+                                           └── board_reels ─────────→ BoardReel (same as above)
+
+
+═══════════════════════════════════════════════════════
+FOREIGN KEYS (what Postgres actually enforces)
+═══════════════════════════════════════════════════════
+
+reels.book_id          → books.id
+voice_reels.reel_id    → reels.id
+likes.user_id          → users.id
+likes.reel_id          → reels.id
+board_reels.board_id   → boards.id
+board_reels.reel_id    → reels.id
+boards.user_id         → users.id
+genre_follows.user_id  → users.id  (when written)
+
+
+═══════════════════════════════════════════════════════
+JUNCTION TABLES (many-to-many bridges)
+═══════════════════════════════════════════════════════
+
+Like        → bridges User ↔ Reel
+BoardReel   → bridges Board ↔ Reel
+
+
+═══════════════════════════════════════════════════════
+ONE THING STILL MISSING
+═══════════════════════════════════════════════════════
+
+GenreFollow — referenced in user.py but not written yet
+Columns it will need: user_id, genre (String), created_at
+Unique constraint on (user_id, genre) — can't follow same genre twice
+
+

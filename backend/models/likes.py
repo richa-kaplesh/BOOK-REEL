@@ -8,8 +8,8 @@ class Like(Base):
     __table_args__ = (UniqueConstraint('user_id', 'reel_id' ),)
 
     id = Column(Integer, primary_key = True)
-    user_id = Column(Integer , foreign_key="users.id", nullable=False)
-    reel_id = Column(Integer , foreign_key="reels.id", nullable=False)
+    user_id = Column(Integer , ForeignKey("users.id"), nullable=False)
+    reel_id = Column(Integer , ForeignKey("users.id"), nullable=False)
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc ))
     user = relationship("User", back_populates="likes")
     reel = relationship("Reel", back_populates="likes") 
