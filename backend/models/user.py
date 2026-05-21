@@ -16,3 +16,4 @@ class User(Base):
     likes = relationship("Like", back_populates="user")
     boards = relationship("Board", back_populates="user")
     genre_follows = relationship("GenreFollow", back_populates="user")
+
