@@ -2,47 +2,48 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 from models.user import User
 from schemas.user import UserCreate, UserUpdate
-from services.auth import hash_password, verify_password, create_access_token
+from services.auth import hash_password
 
 def register_user(db: Session, data: UserCreate) -> User:
     if db.query(User).filter(User.email == data.email).first():
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail = "Email already registered")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered")
     if db.query(User).filter(User.username == data.username).first():
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Username already taken")
-    
-    user = User(
-        username = data.username,
-        email=data.email,
-        password_hash = hash_password(data.password)
-    )
 
+    user = User(
+        username=data.username,
+        email=data.email,
+        password_hash=hash_password(data.password)
+    )
     db.add(user)
     db.commit()
     db.refresh(user)
     return user
 
-def login_user(db:Session, email: str, password: str) -> dict:
+def login_user(db: Session, email: str, password: str) -> dict:
+    from services.auth import verify_password, create_access_token
     user = db.query(User).filter(User.email == email).first()
     if not user or not verify_password(password, user.password_hash):
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="Invalid credentials")
-    
-    token = create_access_token({"sub":user.id})
-    return {"access_token":token,"token_type":"bearer"}
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
 
-def get_user_by_id(db:Session, user_id: int) ->User:
+    token = create_access_token({"sub": str(user.id)})
+    return {"access_token": token, "token_type": "bearer"}
+
+def get_user_by_id(db: Session, user_id) -> User:
     user = db.query(User).filter(User.id == user_id).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
-    return user    
+    return user
 
-def update_user(db:Session, current_user:User, data:UserUpdate)->User:
+def update_user(db: Session, current_user: User, data: UserUpdate) -> User:
     if data.username:
         current_user.username = data.username
     if data.email:
         current_user.email = data.email
     if data.password:
+        from services.auth import hash_password
         current_user.password_hash = hash_password(data.password)
-    
+
     db.commit()
     db.refresh(current_user)
     return current_user

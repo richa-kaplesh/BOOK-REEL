@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 from models.book import Book
 from schemas.book import BookCreate
-
+from services.scraper import fetch_book_metadata
 
 def create_book(db: Session, data: BookCreate) -> Book:
     existing = db.query(Book).filter(
@@ -24,17 +24,30 @@ def create_book(db: Session, data: BookCreate) -> Book:
     db.refresh(book)
     return book
 
+async def create_book_from_title(db: Session, title: str) -> Book:
+    metadata = await fetch_book_metadata(title)
 
-def get_book_by_id(db: Session, book_id: int) -> Book:
+    existing = db.query(Book).filter(
+        Book.title == metadata["title"],
+        Book.author == metadata["author"]
+    ).first()
+    if existing:
+        return existing
+
+    book = Book(**metadata)
+    db.add(book)
+    db.commit()
+    db.refresh(book)
+    return book
+
+def get_book_by_id(db: Session, book_id) -> Book:
     book = db.query(Book).filter(Book.id == book_id).first()
     if not book:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Book not found")
     return book
 
-
 def get_all_books(db: Session, skip: int = 0, limit: int = 20) -> list[Book]:
     return db.query(Book).offset(skip).limit(limit).all()
-
 
 def search_books(db: Session, query: str) -> list[Book]:
     return db.query(Book).filter(
@@ -43,8 +56,7 @@ def search_books(db: Session, query: str) -> list[Book]:
         Book.genre.ilike(f"%{query}%")
     ).all()
 
-
-def delete_book(db: Session, book_id: int) -> None:
+def delete_book(db: Session, book_id) -> None:
     book = get_book_by_id(db, book_id)
     db.delete(book)
     db.commit()

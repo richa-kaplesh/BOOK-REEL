@@ -1,5 +1,5 @@
 import httpx
-from config import settings
+from core.config import settings
 
 
 async def fetch_book_metadata(title: str) -> dict:
