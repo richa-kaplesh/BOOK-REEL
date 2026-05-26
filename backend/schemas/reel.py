@@ -22,7 +22,6 @@ class ReelResponse(BaseModel):
     content: str
     order_index: int
 
-
 class VoiceReelResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     id:int
