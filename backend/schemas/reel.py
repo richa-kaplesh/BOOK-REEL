@@ -1,13 +1,11 @@
 from pydantic import BaseModel, ConfigDict
 from datetime import datetime
 
-
 class ReelCreate(BaseModel):
     book_id : int
     type:str
     content: str
     order_index: int
-
 
 class VoiceReelCreate(BaseModel):
     reel_id:int 
