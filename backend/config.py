@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     TTS_API_KEY : str
     ALGORITHM : str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES : int = 30
+    GOOGLE_BOOKS_API_KEY: str
 
 settings = Settings()
 

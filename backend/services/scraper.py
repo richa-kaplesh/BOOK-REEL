@@ -1,6 +1,5 @@
 import httpx
-from core.config import settings
-
+from config import settings
 
 async def fetch_book_metadata(title: str) -> dict:
     url = "https://www.googleapis.com/books/v1/volumes"

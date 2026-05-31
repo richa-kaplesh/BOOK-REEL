@@ -1,7 +1,7 @@
 import json
 from groq import Groq
 from fastapi import HTTPException
-from core.config import settings
+from config import settings
 
 client = Groq(api_key=settings.GROQ_API_KEY)
 
@@ -36,7 +36,7 @@ Rules:
 - real knowledge from the book only
 """
     response = client.chat.completions.create(
-        model="llama3-70b-8192",
+        model="llama-3.3-70b-versatile",
         messages=[{"role": "user", "content": prompt}],
         temperature=0.7
     )
