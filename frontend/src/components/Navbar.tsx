@@ -39,8 +39,8 @@ export default function Navbar() {
       to={to}
       className={`flex flex-col items-center gap-0.5 px-3 py-2 rounded-2xl transition-all duration-200 text-xs font-semibold ${
         isActive(to)
-          ? 'bg-peach-200 text-warm-900'
-          : 'text-warm-500 hover:text-warm-800 hover:bg-cream-200'
+          ? 'bg-indigo-500/20 text-indigo-400'
+          : 'text-slate-500 hover:text-white hover:bg-white/5'
       }`}
     >
       {icon}
@@ -51,12 +51,15 @@ export default function Navbar() {
   return (
     <>
       {/* Top bar */}
-      <header className="sticky top-0 z-50 bg-cream-100/90 backdrop-blur-sm border-b border-cream-200 px-4 py-3 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-peach-300 to-lavender-300 flex items-center justify-center shadow-cozy group-hover:shadow-cozy-md transition-all">
+      <header className="sticky top-0 z-50 bg-void-950/80 backdrop-blur-xl border-b border-white/5 px-4 py-3 flex items-center justify-between">
+        <Link to="/" className="flex items-center gap-2.5 group">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center shadow-glow group-hover:shadow-glow-lg transition-all duration-300">
             <BookIcon />
           </div>
-          <span className="font-extrabold text-lg text-warm-900 tracking-tight">BookReel</span>
+          <span className="font-extrabold text-lg tracking-tight">
+            <span className="gradient-text">Book</span>
+            <span className="text-white">Reel</span>
+          </span>
         </Link>
         <div className="flex items-center gap-2">
           {user ? (
@@ -73,7 +76,7 @@ export default function Navbar() {
       </header>
 
       {/* Bottom nav (mobile) */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-cream-100/95 backdrop-blur-sm border-t border-cream-200 flex items-center justify-around px-2 py-2 md:hidden">
+      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-void-950/90 backdrop-blur-xl border-t border-white/5 flex items-center justify-around px-2 py-2 md:hidden">
         {navLink('/', <HomeIcon />, 'Feed')}
         {navLink('/search', <SearchIcon />, 'Search')}
         {user && navLink('/add-book', <PlusIcon />, 'Add')}
@@ -84,7 +87,11 @@ export default function Navbar() {
       </nav>
 
       {/* Side nav (desktop) */}
-      <aside className="hidden md:flex fixed left-0 top-16 bottom-0 w-56 flex-col gap-1 px-3 py-4 bg-cream-100 border-r border-cream-200 z-40">
+      <aside className="hidden md:flex fixed left-0 top-16 bottom-0 w-56 flex-col gap-1 px-3 py-4 bg-void-950/80 backdrop-blur-xl border-r border-white/5 z-40">
+        {/* Logo area spacing */}
+        <div className="mb-4 px-1">
+          <p className="text-xs font-semibold text-slate-600 uppercase tracking-widest">Navigation</p>
+        </div>
         <SideLink to="/" icon={<HomeIcon />} label="Feed" active={isActive('/')} />
         <SideLink to="/search" icon={<SearchIcon />} label="Search" active={isActive('/search')} />
         {user && <SideLink to="/add-book" icon={<PlusIcon />} label="Add Book" active={isActive('/add-book')} />}
@@ -92,6 +99,12 @@ export default function Navbar() {
           ? <SideLink to={`/profile/${user.id}`} icon={<UserIcon />} label="Profile" active={location.pathname.startsWith('/profile')} />
           : <SideLink to="/login" icon={<UserIcon />} label="Sign in" active={isActive('/login')} />
         }
+
+        {/* Bottom section */}
+        <div className="mt-auto">
+          <div className="h-px bg-white/5 mb-3" />
+          <p className="text-xs text-slate-600 font-medium px-2">BookReel © 2025</p>
+        </div>
       </aside>
     </>
   )
@@ -101,12 +114,17 @@ function SideLink({ to, icon, label, active }: { to: string; icon: React.ReactNo
   return (
     <Link
       to={to}
-      className={`flex items-center gap-3 px-4 py-2.5 rounded-2xl font-semibold text-sm transition-all duration-200 ${
-        active ? 'bg-peach-200 text-warm-900' : 'text-warm-500 hover:text-warm-800 hover:bg-cream-200'
+      className={`flex items-center gap-3 px-4 py-2.5 rounded-2xl font-semibold text-sm transition-all duration-200 group ${
+        active
+          ? 'bg-indigo-500/20 text-indigo-400 shadow-glow'
+          : 'text-slate-400 hover:text-white hover:bg-white/5'
       }`}
     >
-      {icon}
+      <span className={`transition-transform duration-200 ${active ? '' : 'group-hover:scale-110'}`}>
+        {icon}
+      </span>
       {label}
+      {active && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-indigo-400" />}
     </Link>
   )
 }

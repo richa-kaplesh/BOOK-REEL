@@ -15,9 +15,8 @@ import AddBookPage from './pages/AddBookPage'
 
 function Layout() {
   return (
-    <div className="min-h-screen bg-cream-100">
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--bg-primary)' }}>
       <Navbar />
-      {/* Desktop: push content right of sidebar */}
       <main className="md:ml-56 md:pt-0">
         <Outlet />
       </main>
@@ -39,11 +38,9 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Auth routes (no navbar) */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
 
-        {/* App routes (with navbar) */}
         <Route element={<Layout />}>
           <Route path="/" element={<FeedPage />} />
           <Route path="/search" element={<SearchPage />} />
@@ -59,7 +56,6 @@ export default function App() {
           />
         </Route>
 
-        {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

@@ -50,13 +50,15 @@ export default function SearchPage() {
   }, [query])
 
   return (
-    <div className="min-h-screen bg-cream-100 pb-20 md:pb-8">
+    <div className="min-h-screen bg-void-950 pb-20 md:pb-8">
       {/* Header */}
-      <div className="sticky top-14 z-30 bg-cream-100/95 backdrop-blur-sm px-4 py-4 border-b border-cream-200">
-        <h1 className="text-xl font-extrabold text-warm-900 mb-3">🔍 Search</h1>
+      <div className="sticky top-14 z-30 bg-void-950/90 backdrop-blur-xl px-4 py-4 border-b border-white/5">
+        <h1 className="text-xl font-extrabold text-white mb-3">
+          <span className="gradient-text">Search</span>
+        </h1>
         <div className="relative">
           <svg
-            className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-warm-400"
+            className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500"
             fill="none" stroke="currentColor" viewBox="0 0 24 24"
           >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -66,13 +68,13 @@ export default function SearchPage() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search by book title or author…"
-            className="input-field pl-11"
+            className="input-field pl-11 pr-10"
             autoFocus
           />
           {query && (
             <button
               onClick={() => setQuery('')}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-warm-400 hover:text-warm-700 transition-colors"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors w-5 h-5 flex items-center justify-center rounded-full hover:bg-white/10"
             >
               ✕
             </button>
@@ -89,17 +91,22 @@ export default function SearchPage() {
 
         {!isLoading && searched && reels.length === 0 && (
           <div className="text-center py-16 animate-fade-in">
-            <div className="text-5xl mb-4">🔎</div>
-            <h3 className="text-xl font-bold text-warm-700 mb-2">No results</h3>
-            <p className="text-warm-400 font-medium">Try a different title or author name</p>
+            <div className="w-20 h-20 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-5 text-4xl">
+              🔎
+            </div>
+            <h3 className="text-xl font-bold text-white mb-2">No results found</h3>
+            <p className="text-slate-500 font-medium mb-1">No reels match "<span className="text-slate-300">{query}</span>"</p>
+            <p className="text-slate-600 text-sm">Try a different title or author name</p>
           </div>
         )}
 
         {!isLoading && !searched && (
           <div className="text-center py-20 animate-fade-in">
-            <div className="text-6xl mb-4">📖</div>
-            <p className="text-warm-500 font-medium text-lg">Search for a book or author</p>
-            <p className="text-warm-400 text-sm mt-1">Find reels from your favorite reads</p>
+            <div className="w-24 h-24 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-6 animate-float">
+              <span className="text-5xl">📖</span>
+            </div>
+            <p className="text-white font-semibold text-lg mb-1">Search for a book or author</p>
+            <p className="text-slate-500 text-sm">Find reels from your favourite reads</p>
           </div>
         )}
 

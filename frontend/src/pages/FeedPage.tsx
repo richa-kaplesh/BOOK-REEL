@@ -81,19 +81,21 @@ export default function FeedPage() {
   }, [fetchReels, hasMore, isLoading])
 
   return (
-    <div className="min-h-screen bg-cream-100 pb-20 md:pb-4">
+    <div className="min-h-screen bg-void-950 pb-20 md:pb-4">
       {/* Header */}
-      <div className="sticky top-14 z-30 bg-cream-100/95 backdrop-blur-sm px-4 py-3 border-b border-cream-200">
-        <h1 className="text-xl font-extrabold text-warm-900 mb-3">📚 Your Feed</h1>
+      <div className="sticky top-14 z-30 bg-void-950/90 backdrop-blur-xl px-4 py-4 border-b border-white/5">
+        <h1 className="text-xl font-extrabold text-white mb-3">
+          <span className="gradient-text">Your</span> Feed
+        </h1>
 
-        {/* Genre tabs */}
-        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
+        {/* Genre filter pills */}
+        <div className="flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: 'none' }}>
           <button
             onClick={() => setSelectedGenre(null)}
-            className={`shrink-0 text-xs font-semibold px-4 py-2 rounded-full transition-all duration-200 ${
+            className={`shrink-0 text-xs font-semibold px-4 py-1.5 rounded-full transition-all duration-200 border ${
               selectedGenre === null
-                ? 'bg-peach-300 text-warm-900 shadow-cozy'
-                : 'bg-cream-200 text-warm-500 hover:bg-peach-100'
+                ? 'bg-indigo-500/20 text-indigo-300 border-indigo-500/40 shadow-glow'
+                : 'bg-white/5 text-slate-400 border-white/10 hover:bg-white/8 hover:text-white'
             }`}
           >
             All
@@ -102,10 +104,10 @@ export default function FeedPage() {
             <button
               key={g}
               onClick={() => setSelectedGenre(g)}
-              className={`shrink-0 text-xs font-semibold px-4 py-2 rounded-full transition-all duration-200 ${
+              className={`shrink-0 text-xs font-semibold px-4 py-1.5 rounded-full transition-all duration-200 border ${
                 selectedGenre === g
-                  ? 'bg-peach-300 text-warm-900 shadow-cozy'
-                  : 'bg-cream-200 text-warm-500 hover:bg-peach-100'
+                  ? 'bg-indigo-500/20 text-indigo-300 border-indigo-500/40 shadow-glow'
+                  : 'bg-white/5 text-slate-400 border-white/10 hover:bg-white/8 hover:text-white'
               }`}
             >
               {g}
@@ -115,7 +117,7 @@ export default function FeedPage() {
       </div>
 
       {/* Reels feed */}
-      <div className="max-w-lg mx-auto px-4 pt-6 space-y-6">
+      <div className="max-w-lg mx-auto px-4 pt-6 space-y-5">
         {reels.map((reel) => (
           <ReelCard key={reel.id} reel={reel} book={books[reel.book_id]} />
         ))}
@@ -123,12 +125,13 @@ export default function FeedPage() {
         {/* Skeleton loading */}
         {isLoading && reels.length === 0 && (
           Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="card p-5 animate-pulse">
-              <div className="h-16 bg-cream-200 rounded-2xl mb-4" />
-              <div className="space-y-2">
-                <div className="h-4 bg-cream-200 rounded-full w-3/4" />
-                <div className="h-4 bg-cream-200 rounded-full w-full" />
-                <div className="h-4 bg-cream-200 rounded-full w-5/6" />
+            <div key={i} className="card p-5">
+              <div className="h-16 skeleton mb-4 rounded-2xl" />
+              <div className="space-y-3">
+                <div className="h-3 skeleton rounded-full w-1/4" />
+                <div className="h-4 skeleton rounded-full w-3/4" />
+                <div className="h-4 skeleton rounded-full w-full" />
+                <div className="h-4 skeleton rounded-full w-5/6" />
               </div>
             </div>
           ))
@@ -142,18 +145,22 @@ export default function FeedPage() {
         {/* Empty state */}
         {!isLoading && reels.length === 0 && (
           <div className="text-center py-20 animate-fade-in">
-            <div className="text-6xl mb-4">🌿</div>
-            <h3 className="text-xl font-bold text-warm-700 mb-2">No reels yet</h3>
-            <p className="text-warm-400 font-medium">
+            <div className="text-6xl mb-4 animate-float inline-block">🌌</div>
+            <h3 className="text-xl font-bold text-white mb-2">No reels yet</h3>
+            <p className="text-slate-500 font-medium">
               {selectedGenre ? `No ${selectedGenre} reels found.` : 'Add a book to get started!'}
             </p>
           </div>
         )}
 
         {!hasMore && reels.length > 0 && (
-          <p className="text-center text-warm-400 text-sm font-medium py-4">
-            You've caught up! 🎉
-          </p>
+          <div className="text-center py-6">
+            <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-5 py-2">
+              <span className="text-indigo-400 text-sm">✦</span>
+              <p className="text-slate-400 text-sm font-medium">You're all caught up</p>
+              <span className="text-indigo-400 text-sm">✦</span>
+            </div>
+          </div>
         )}
       </div>
     </div>
