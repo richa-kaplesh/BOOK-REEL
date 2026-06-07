@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database import engine, Base
 from models import user, book, reel, board, likes, genre_follows
-from routers import auth, users, books, reels, feed, search
+from routers import auth, users, books, reels, feed, search, boards
 
 Base.metadata.create_all(bind=engine)
 
@@ -22,7 +22,7 @@ app.include_router(books.router)
 app.include_router(reels.router)
 app.include_router(feed.router)
 app.include_router(search.router)
-
+app.include_router(boards.router)
 
 @app.get("/")
 def root():
