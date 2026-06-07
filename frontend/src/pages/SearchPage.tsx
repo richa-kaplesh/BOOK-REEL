@@ -50,16 +50,24 @@ export default function SearchPage() {
   }, [query])
 
   return (
-    <div className="min-h-screen bg-void-950 pb-20 md:pb-8">
+    <div className="min-h-screen pb-20 md:pb-8" style={{ backgroundColor: 'var(--bg-primary)' }}>
       {/* Header */}
-      <div className="sticky top-14 z-30 bg-void-950/90 backdrop-blur-xl px-4 py-4 border-b border-white/5">
-        <h1 className="text-xl font-extrabold text-white mb-3">
-          <span className="gradient-text">Search</span>
+      <div
+        className="sticky top-14 z-30 px-4 py-4"
+        style={{
+          backgroundColor: 'var(--bg-primary)',
+          backdropFilter: 'blur(16px)',
+          borderBottom: '1px solid var(--border-soft)',
+        }}
+      >
+        <h1 className="text-xl font-serif font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
+          <span style={{ color: 'var(--accent-amber)' }}>Search</span>
         </h1>
         <div className="relative">
           <svg
-            className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500"
+            className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4"
             fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            style={{ color: 'var(--text-muted)' }}
           >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
@@ -74,7 +82,8 @@ export default function SearchPage() {
           {query && (
             <button
               onClick={() => setQuery('')}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors w-5 h-5 flex items-center justify-center rounded-full hover:bg-white/10"
+              className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 flex items-center justify-center rounded-full transition-colors"
+              style={{ color: 'var(--text-muted)' }}
             >
               ✕
             </button>
@@ -91,22 +100,36 @@ export default function SearchPage() {
 
         {!isLoading && searched && reels.length === 0 && (
           <div className="text-center py-16 animate-fade-in">
-            <div className="w-20 h-20 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-5 text-4xl">
+            <div
+              className="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-5 text-4xl"
+              style={{
+                backgroundColor: 'var(--bg-pill)',
+                border: '1px solid var(--border-soft)',
+              }}
+            >
               🔎
             </div>
-            <h3 className="text-xl font-bold text-white mb-2">No results found</h3>
-            <p className="text-slate-500 font-medium mb-1">No reels match "<span className="text-slate-300">{query}</span>"</p>
-            <p className="text-slate-600 text-sm">Try a different title or author name</p>
+            <h3 className="text-xl font-serif font-bold mb-2" style={{ color: 'var(--text-primary)' }}>No results found</h3>
+            <p className="font-medium mb-1" style={{ color: 'var(--text-muted)' }}>
+              No reels match "<span style={{ color: 'var(--text-secondary)' }}>{query}</span>"
+            </p>
+            <p className="text-sm" style={{ color: 'var(--text-placeholder)' }}>Try a different title or author name</p>
           </div>
         )}
 
         {!isLoading && !searched && (
           <div className="text-center py-20 animate-fade-in">
-            <div className="w-24 h-24 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-6 animate-float">
+            <div
+              className="w-24 h-24 rounded-3xl flex items-center justify-center mx-auto mb-6 animate-float"
+              style={{
+                backgroundColor: 'var(--bg-pill)',
+                border: '1px solid var(--border-soft)',
+              }}
+            >
               <span className="text-5xl">📖</span>
             </div>
-            <p className="text-white font-semibold text-lg mb-1">Search for a book or author</p>
-            <p className="text-slate-500 text-sm">Find reels from your favourite reads</p>
+            <p className="font-semibold text-lg mb-1" style={{ color: 'var(--text-primary)' }}>Search for a book or author</p>
+            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>Find reels from your favourite reads</p>
           </div>
         )}
 

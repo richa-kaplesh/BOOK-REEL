@@ -31,20 +31,26 @@ export default function AddBookPage() {
   }
 
   return (
-    <div className="min-h-screen bg-void-950 pb-20 md:pb-8 relative overflow-hidden">
+    <div className="min-h-screen pb-20 md:pb-8 relative overflow-hidden" style={{ backgroundColor: 'var(--bg-primary)' }}>
       {/* Background glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-64 rounded-full blur-3xl pointer-events-none" style={{ backgroundColor: 'rgba(200,133,58,0.06)' }} />
 
       {/* Header */}
-      <div className="relative px-4 pt-10 pb-10 border-b border-white/5">
+      <div className="relative px-4 pt-10 pb-10" style={{ borderBottom: '1px solid var(--border-soft)' }}>
         <div className="max-w-lg mx-auto text-center animate-slide-up">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-glow-lg mx-auto mb-5 animate-float">
+          <div
+            className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5 animate-float"
+            style={{
+              background: 'linear-gradient(135deg, #C8853A, #D4694A)',
+              boxShadow: '0 4px 24px rgba(200,133,58,0.35)',
+            }}
+          >
             <span className="text-2xl">✨</span>
           </div>
-          <h1 className="text-3xl font-extrabold text-white mb-2">
-            Add a <span className="gradient-text">Book</span>
+          <h1 className="text-3xl font-serif font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
+            Add a <span style={{ color: 'var(--accent-amber)' }}>Book</span>
           </h1>
-          <p className="text-slate-500 font-medium">
+          <p className="font-medium" style={{ color: 'var(--text-muted)' }}>
             Enter a title — we'll auto-generate key insight reels for you
           </p>
         </div>
@@ -56,7 +62,7 @@ export default function AddBookPage() {
           <div className="card p-6 mb-6">
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-2">Book title</label>
+                <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>Book title</label>
                 <input
                   type="text"
                   value={title}
@@ -66,13 +72,20 @@ export default function AddBookPage() {
                   disabled={isLoading}
                   autoFocus
                 />
-                <p className="text-xs text-slate-600 font-medium mt-1.5">
+                <p className="text-xs font-medium mt-1.5" style={{ color: 'var(--text-placeholder)' }}>
                   We'll look it up and generate key insights automatically
                 </p>
               </div>
 
               {error && (
-                <div className="bg-rose-500/10 border border-rose-500/20 text-rose-300 text-sm font-medium px-4 py-3 rounded-2xl animate-fade-in flex items-center gap-2">
+                <div
+                  className="text-sm font-medium px-4 py-3 rounded-2xl animate-fade-in flex items-center gap-2"
+                  style={{
+                    backgroundColor: 'rgba(212,105,74,0.08)',
+                    border: '1px solid rgba(212,105,74,0.18)',
+                    color: 'var(--accent-terra)',
+                  }}
+                >
                   <span>⚠️</span> {error}
                 </div>
               )}
@@ -84,7 +97,10 @@ export default function AddBookPage() {
               >
                 {isLoading ? (
                   <>
-                    <span className="w-5 h-5 rounded-full border-2 border-white/20 border-t-white animate-spin" />
+                    <span
+                      className="w-5 h-5 rounded-full border-2 animate-spin"
+                      style={{ borderColor: 'rgba(255,255,255,0.2)', borderTopColor: '#fff' }}
+                    />
                     Generating reels…
                   </>
                 ) : (
@@ -102,16 +118,20 @@ export default function AddBookPage() {
         {isLoading && (
           <div className="card p-10 text-center animate-fade-in">
             <div className="text-5xl mb-5 animate-bounce inline-block">📚</div>
-            <h3 className="text-lg font-bold text-white mb-2">Generating your reels…</h3>
-            <p className="text-slate-500 text-sm font-medium mb-6">
+            <h3 className="text-lg font-serif font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Generating your reels…</h3>
+            <p className="text-sm font-medium mb-6" style={{ color: 'var(--text-muted)' }}>
               We're extracting key insights from this book. This may take up to 30 seconds.
             </p>
             <div className="flex justify-center gap-2">
               {[0, 1, 2].map((i) => (
                 <div
                   key={i}
-                  className="w-2.5 h-2.5 bg-indigo-500 rounded-full animate-bounce shadow-glow"
-                  style={{ animationDelay: `${i * 0.2}s` }}
+                  className="w-2.5 h-2.5 rounded-full animate-bounce"
+                  style={{
+                    backgroundColor: 'var(--accent-amber)',
+                    boxShadow: '0 0 8px rgba(200,133,58,0.4)',
+                    animationDelay: `${i * 0.2}s`,
+                  }}
                 />
               ))}
             </div>
@@ -122,8 +142,8 @@ export default function AddBookPage() {
         {done && reels.length > 0 && (
           <div className="animate-slide-up space-y-4">
             <div className="flex items-center justify-between mb-2">
-              <h2 className="text-lg font-extrabold text-white">
-                🎉 <span className="gradient-text">{reels.length} reels created!</span>
+              <h2 className="text-lg font-serif font-bold" style={{ color: 'var(--text-primary)' }}>
+                🎉 <span style={{ color: 'var(--accent-amber)' }}>{reels.length} reels created!</span>
               </h2>
               <button
                 onClick={() => navigate('/')}
@@ -138,14 +158,14 @@ export default function AddBookPage() {
               <div key={reel.id} className="card p-5">
                 <div className="flex items-center gap-2 mb-3">
                   <span className="type-tag">{reel.type}</span>
-                  <span className="text-xs text-slate-600 font-medium ml-auto">#{reel.order_index + 1}</span>
+                  <span className="text-xs font-medium ml-auto" style={{ color: 'var(--text-placeholder)' }}>#{reel.order_index + 1}</span>
                 </div>
-                <p className="text-slate-200 text-sm leading-relaxed font-medium">{reel.content}</p>
+                <p className="text-sm leading-relaxed font-medium" style={{ color: 'var(--text-secondary)' }}>{reel.content}</p>
               </div>
             ))}
 
             {reels.length > 3 && (
-              <p className="text-center text-slate-600 text-sm font-medium">
+              <p className="text-center text-sm font-medium" style={{ color: 'var(--text-placeholder)' }}>
                 +{reels.length - 3} more reels in the feed
               </p>
             )}
@@ -153,7 +173,8 @@ export default function AddBookPage() {
             <div className="flex gap-3 pt-2">
               <button
                 onClick={() => { setTitle(''); setDone(false); setReels([]) }}
-                className="btn-ghost flex-1 text-center border border-white/5 rounded-2xl"
+                className="btn-ghost flex-1 text-center rounded-2xl"
+                style={{ border: '1px solid var(--border-soft)' }}
               >
                 Add another
               </button>

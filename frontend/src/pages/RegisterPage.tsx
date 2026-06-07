@@ -18,7 +18,6 @@ export default function RegisterPage() {
     setIsLoading(true)
     try {
       await registerUser(username, email, password)
-      // Auto-login after register
       const data = await loginUser(email, password)
       setToken(data.access_token)
       await initialize()
@@ -32,25 +31,31 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-void-950 flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden" style={{ backgroundColor: 'var(--bg-primary)' }}>
       {/* Background glow orbs */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-1/3 w-80 h-80 bg-violet-500/8 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-0 left-1/4 w-96 h-96 rounded-full blur-3xl pointer-events-none" style={{ backgroundColor: 'rgba(200,133,58,0.08)' }} />
+      <div className="absolute bottom-0 right-1/3 w-80 h-80 rounded-full blur-3xl pointer-events-none" style={{ backgroundColor: 'rgba(212,105,74,0.05)' }} />
 
       <div className="w-full max-w-md animate-fade-in relative z-10">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-glow-lg mx-auto mb-5 animate-float">
+          <div
+            className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5 animate-float"
+            style={{
+              background: 'linear-gradient(135deg, #C8853A, #D4694A)',
+              boxShadow: '0 4px 24px rgba(200,133,58,0.35)',
+            }}
+          >
             <span className="text-2xl">✨</span>
           </div>
-          <h1 className="text-3xl font-extrabold text-white">Join BookReel</h1>
-          <p className="text-slate-500 mt-1.5 font-medium">Start your reading journey today</p>
+          <h1 className="text-3xl font-serif font-bold" style={{ color: 'var(--text-primary)' }}>Join BookReel</h1>
+          <p className="mt-1.5 font-medium" style={{ color: 'var(--text-muted)' }}>Start your reading journey today</p>
         </div>
 
         <div className="card p-8">
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-semibold text-slate-300 mb-2">Username</label>
+              <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>Username</label>
               <input
                 type="text"
                 value={username}
@@ -63,7 +68,7 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-slate-300 mb-2">Email</label>
+              <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>Email</label>
               <input
                 type="email"
                 value={email}
@@ -76,7 +81,7 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-slate-300 mb-2">Password</label>
+              <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>Password</label>
               <input
                 type="password"
                 value={password}
@@ -87,11 +92,18 @@ export default function RegisterPage() {
                 minLength={6}
                 autoComplete="new-password"
               />
-              <p className="text-slate-600 text-xs mt-1.5 font-medium">Minimum 6 characters</p>
+              <p className="text-xs mt-1.5 font-medium" style={{ color: 'var(--text-placeholder)' }}>Minimum 6 characters</p>
             </div>
 
             {error && (
-              <div className="bg-rose-500/10 border border-rose-500/20 text-rose-300 text-sm font-medium px-4 py-3 rounded-2xl animate-fade-in flex items-center gap-2">
+              <div
+                className="text-sm font-medium px-4 py-3 rounded-2xl animate-fade-in flex items-center gap-2"
+                style={{
+                  backgroundColor: 'rgba(212,105,74,0.08)',
+                  border: '1px solid rgba(212,105,74,0.18)',
+                  color: 'var(--accent-terra)',
+                }}
+              >
                 <span>⚠️</span>
                 {error}
               </div>
@@ -103,16 +115,23 @@ export default function RegisterPage() {
               className="btn-primary w-full flex items-center justify-center gap-2 disabled:opacity-60 py-3"
             >
               {isLoading ? (
-                <span className="w-5 h-5 rounded-full border-2 border-white/20 border-t-white animate-spin" />
+                <span
+                  className="w-5 h-5 rounded-full border-2 animate-spin"
+                  style={{ borderColor: 'rgba(255,255,255,0.2)', borderTopColor: '#fff' }}
+                />
               ) : ''}
               {isLoading ? 'Creating account…' : 'Create account'}
             </button>
           </form>
 
-          <div className="mt-6 pt-5 border-t border-white/5 text-center">
-            <p className="text-slate-500 text-sm">
+          <div className="mt-6 pt-5 text-center" style={{ borderTop: '1px solid var(--border-soft)' }}>
+            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
               Already have an account?{' '}
-              <Link to="/login" className="text-indigo-400 font-bold hover:text-indigo-300 transition-colors">
+              <Link
+                to="/login"
+                className="font-bold transition-colors hover:opacity-80"
+                style={{ color: 'var(--accent-amber)' }}
+              >
                 Sign in
               </Link>
             </p>

@@ -81,22 +81,31 @@ export default function FeedPage() {
   }, [fetchReels, hasMore, isLoading])
 
   return (
-    <div className="min-h-screen bg-void-950 pb-20 md:pb-4">
+    <div className="min-h-screen pb-20 md:pb-4" style={{ backgroundColor: 'var(--bg-primary)' }}>
       {/* Header */}
-      <div className="sticky top-14 z-30 bg-void-950/90 backdrop-blur-xl px-4 py-4 border-b border-white/5">
-        <h1 className="text-xl font-extrabold text-white mb-3">
-          <span className="gradient-text">Your</span> Feed
+      <div
+        className="sticky top-14 z-30 px-4 py-4"
+        style={{
+          backgroundColor: 'var(--bg-primary)',
+          backdropFilter: 'blur(16px)',
+          borderBottom: '1px solid var(--border-soft)',
+        }}
+      >
+        <h1 className="text-xl font-serif font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
+          <span style={{ color: 'var(--accent-amber)' }}>Your</span> Feed
         </h1>
 
         {/* Genre filter pills */}
         <div className="flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: 'none' }}>
           <button
             onClick={() => setSelectedGenre(null)}
-            className={`shrink-0 text-xs font-semibold px-4 py-1.5 rounded-full transition-all duration-200 border ${
-              selectedGenre === null
-                ? 'bg-indigo-500/20 text-indigo-300 border-indigo-500/40 shadow-glow'
-                : 'bg-white/5 text-slate-400 border-white/10 hover:bg-white/8 hover:text-white'
-            }`}
+            className="shrink-0 text-xs font-semibold px-4 py-1.5 rounded-full transition-all duration-200"
+            style={{
+              backgroundColor: selectedGenre === null ? 'rgba(200,133,58,0.12)' : 'var(--bg-pill)',
+              color: selectedGenre === null ? 'var(--accent-amber)' : 'var(--text-muted)',
+              border: selectedGenre === null ? '1px solid rgba(200,133,58,0.30)' : '1px solid var(--border-soft)',
+              boxShadow: selectedGenre === null ? '0 0 12px rgba(200,133,58,0.15)' : 'none',
+            }}
           >
             All
           </button>
@@ -104,11 +113,13 @@ export default function FeedPage() {
             <button
               key={g}
               onClick={() => setSelectedGenre(g)}
-              className={`shrink-0 text-xs font-semibold px-4 py-1.5 rounded-full transition-all duration-200 border ${
-                selectedGenre === g
-                  ? 'bg-indigo-500/20 text-indigo-300 border-indigo-500/40 shadow-glow'
-                  : 'bg-white/5 text-slate-400 border-white/10 hover:bg-white/8 hover:text-white'
-              }`}
+              className="shrink-0 text-xs font-semibold px-4 py-1.5 rounded-full transition-all duration-200"
+              style={{
+                backgroundColor: selectedGenre === g ? 'rgba(200,133,58,0.12)' : 'var(--bg-pill)',
+                color: selectedGenre === g ? 'var(--accent-amber)' : 'var(--text-muted)',
+                border: selectedGenre === g ? '1px solid rgba(200,133,58,0.30)' : '1px solid var(--border-soft)',
+                boxShadow: selectedGenre === g ? '0 0 12px rgba(200,133,58,0.15)' : 'none',
+              }}
             >
               {g}
             </button>
@@ -145,9 +156,9 @@ export default function FeedPage() {
         {/* Empty state */}
         {!isLoading && reels.length === 0 && (
           <div className="text-center py-20 animate-fade-in">
-            <div className="text-6xl mb-4 animate-float inline-block">🌌</div>
-            <h3 className="text-xl font-bold text-white mb-2">No reels yet</h3>
-            <p className="text-slate-500 font-medium">
+            <div className="text-6xl mb-4 animate-float inline-block">📖</div>
+            <h3 className="text-xl font-serif font-bold mb-2" style={{ color: 'var(--text-primary)' }}>No reels yet</h3>
+            <p className="font-medium" style={{ color: 'var(--text-muted)' }}>
               {selectedGenre ? `No ${selectedGenre} reels found.` : 'Add a book to get started!'}
             </p>
           </div>
@@ -155,10 +166,16 @@ export default function FeedPage() {
 
         {!hasMore && reels.length > 0 && (
           <div className="text-center py-6">
-            <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-5 py-2">
-              <span className="text-indigo-400 text-sm">✦</span>
-              <p className="text-slate-400 text-sm font-medium">You're all caught up</p>
-              <span className="text-indigo-400 text-sm">✦</span>
+            <div
+              className="inline-flex items-center gap-2 rounded-full px-5 py-2"
+              style={{
+                backgroundColor: 'var(--bg-pill)',
+                border: '1px solid var(--border-soft)',
+              }}
+            >
+              <span className="text-sm" style={{ color: 'var(--accent-amber)' }}>✦</span>
+              <p className="text-sm font-medium" style={{ color: 'var(--text-muted)' }}>You're all caught up</p>
+              <span className="text-sm" style={{ color: 'var(--accent-amber)' }}>✦</span>
             </div>
           </div>
         )}

@@ -7,10 +7,10 @@ import Spinner from '../components/Spinner'
 import type { Book, Reel } from '../types'
 
 const COVER_GRADIENTS = [
-  'from-peach-200 to-lavender-200',
-  'from-lavender-200 to-mint-200',
-  'from-mint-200 to-blush-200',
-  'from-blush-200 to-peach-200',
+  'linear-gradient(135deg, #C8853A, #D4694A)',
+  'linear-gradient(135deg, #7C9E7E, #5F9EA8)',
+  'linear-gradient(135deg, #9B7EA0, #6A7EA8)',
+  'linear-gradient(135deg, #9E8A6A, #C8853A)',
 ]
 
 export default function BookPage() {
@@ -34,7 +34,7 @@ export default function BookPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-cream-100">
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: 'var(--bg-primary)' }}>
         <Spinner size="lg" />
       </div>
     )
@@ -42,9 +42,9 @@ export default function BookPage() {
 
   if (error || !book) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-cream-100">
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4" style={{ backgroundColor: 'var(--bg-primary)' }}>
         <span className="text-5xl">😕</span>
-        <p className="text-warm-600 font-semibold">{error || 'Book not found'}</p>
+        <p className="font-semibold" style={{ color: 'var(--text-muted)' }}>{error || 'Book not found'}</p>
         <Link to="/" className="btn-primary">Back to feed</Link>
       </div>
     )
@@ -53,10 +53,14 @@ export default function BookPage() {
   const gradient = COVER_GRADIENTS[book.id % COVER_GRADIENTS.length]
 
   return (
-    <div className="min-h-screen bg-cream-100 pb-20 md:pb-8">
+    <div className="min-h-screen pb-20 md:pb-8" style={{ backgroundColor: 'var(--bg-primary)' }}>
       {/* Hero */}
-      <div className={`bg-gradient-to-br ${gradient} px-4 pt-6 pb-8`}>
-        <Link to="/" className="inline-flex items-center gap-2 text-warm-700 font-semibold text-sm mb-6 hover:text-warm-900 transition-colors">
+      <div className="px-4 pt-6 pb-8" style={{ background: `${gradient}20` }}>
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 font-semibold text-sm mb-6 transition-colors hover:opacity-80"
+          style={{ color: 'var(--text-secondary)' }}
+        >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
@@ -70,10 +74,17 @@ export default function BookPage() {
               <img
                 src={book.cover_image_url}
                 alt={book.title}
-                className="w-24 h-32 object-cover rounded-2xl shadow-cozy-md"
+                className="w-24 h-32 object-cover rounded-2xl"
+                style={{ boxShadow: 'var(--shadow-card)' }}
               />
             ) : (
-              <div className="w-24 h-32 bg-white/40 rounded-2xl shadow-cozy-md flex items-center justify-center">
+              <div
+                className="w-24 h-32 rounded-2xl flex items-center justify-center"
+                style={{
+                  background: gradient,
+                  boxShadow: 'var(--shadow-card)',
+                }}
+              >
                 <span className="text-4xl">📖</span>
               </div>
             )}
@@ -81,11 +92,22 @@ export default function BookPage() {
 
           {/* Info */}
           <div className="flex-1 min-w-0">
-            <h1 className="text-2xl font-extrabold text-warm-900 leading-tight mb-1">{book.title}</h1>
-            <p className="text-warm-700 font-semibold mb-3">{book.author}</p>
+            <h1 className="text-2xl font-serif font-bold leading-tight mb-1" style={{ color: 'var(--text-primary)' }}>
+              {book.title}
+            </h1>
+            <p className="font-semibold mb-3" style={{ color: 'var(--text-secondary)' }}>{book.author}</p>
             <div className="flex flex-wrap gap-2">
               <span className="genre-tag">{book.genre}</span>
-              <span className="tag bg-white/50 text-warm-700">{reels.length} reels</span>
+              <span
+                className="tag"
+                style={{
+                  backgroundColor: 'var(--bg-pill)',
+                  color: 'var(--text-secondary)',
+                  border: '1px solid var(--border-soft)',
+                }}
+              >
+                {reels.length} reels
+              </span>
             </div>
           </div>
         </div>
@@ -93,12 +115,12 @@ export default function BookPage() {
 
       {/* Reels list */}
       <div className="max-w-lg mx-auto px-4 pt-6 space-y-5">
-        <h2 className="text-lg font-extrabold text-warm-900">Key insights</h2>
+        <h2 className="text-lg font-serif font-bold" style={{ color: 'var(--text-primary)' }}>Key insights</h2>
 
         {reels.length === 0 ? (
           <div className="text-center py-16 animate-fade-in">
             <div className="text-5xl mb-3">🌿</div>
-            <p className="text-warm-500 font-medium">No reels for this book yet.</p>
+            <p className="font-medium" style={{ color: 'var(--text-muted)' }}>No reels for this book yet.</p>
           </div>
         ) : (
           reels.map((reel) => (
